@@ -23,4 +23,4 @@ fi
 curl -s ftp://ftp.ensemblgenomes.org/pub/bacteria/release-37/gff3/bacteria_0_collection/escherichia_coli_str_k_12_substr_mg1655/Escherichia_coli_str_k_12_substr_mg1655.ASM584v2.37.gff3.gz | gunzip -c > $OUTDIR/ecoli_MG1655.gff
 
 #count CDS
-grep --color "ID=CDS" ecoli_MG1655.gff | cut -f 3 | sort | uniq -c > results.txt
+grep --color "ID=CDS" $OUTDIR/ecoli_MG1655.gff | cut -f 3 | sort | uniq -c > results.txt
