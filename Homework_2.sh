@@ -32,10 +32,10 @@ module load ucsc/359
 #convert gff file to bed format
 convert2bed --input=gff < $OUTDIR/ecoli_MG1655.gff > $OUTDIR/ecoli_MG1655.bed
 grep "CDS" $OUTDIR/ecoli_MG1655.bed > $OUTDIR/ecoli_MG1655_cds.bed
-samtools faidx $OUTDIR/ecoli_MG1655.fna > $OUTDIR/ecoli_MG1655.fna.fai
+samtools faidx $OUTDIR/ecoli_MG1655.fna
 cut -f1,2 $OUTDIR/ecoli_MG1655.fna.fai > $OUTDIR/ecoli_MG1655.genome.txt
 bedtools complement -i $OUTDIR/ecoli_MG1655_cds.bed -g $OUTDIR/ecoli_MG1655.genome.txt > $OUTDIR/ecoli_MG1655_intergenic.bed
 bedtools getfasta -fi $OUTDIR/ecoli_MG1655.fna -bed $OUTDIR/ecoli_MG1655_cds.bed -fo $OUTDIR/ecoli_MG1655_cds.fna
 bedtools getfasta -fi $OUTDIR/ecoli_MG1655.fna -bed $OUTDIR/ecoli_MG1655_intergenic.bed -fo $OUTDIR/ecoli_MG1655_noncds.fna
-faCount $OUTDIR/ecoli_MG1655.cds.fna -summary > $OUTDIR/results_cds.txt
-faCount $OUTDIR/ecoli_MG1655.noncds.fna -summary > $OUTDIR/results_noncds.txt
+faCount $OUTDIR/ecoli_MG1655_cds.fna -summary > $OUTDIR/results_cds.txt
+faCount $OUTDIR/ecoli_MG1655_noncds.fna -summary > $OUTDIR/results_noncds.txt
