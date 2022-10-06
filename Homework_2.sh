@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=CDS-count		                        # Job name
+#SBATCH --job-name=GC-content		                        # Job name
 #SBATCH --partition=batch		                            # Partition (queue) name
 #SBATCH --ntasks=1			                                # Single task job
 #SBATCH --cpus-per-task=2		                            # Number of cores per task - match this to the num_threads used by BLAST
@@ -31,8 +31,6 @@ module load ucsc/359
 
 #convert gff file to bed format
 convert2bed --input=gff < $OUTDIR/ecoli_MG1655.gff > $OUTDIR/ecoli_MG1655.bed
-
-#count CDS
 grep "ID=cds" $OUTDIR/ecoli_MG1655.bed > $OUTDIR/ecoli_MG1655_cds.bed
 samtools faidx $OUTDIR/ecoli_MG1655.fna | cut -f1,2 > $OUTDIR/ecoli_MG1655.genome.txt
 bedtools complement -i $OUTDIR/ecoli_MG1655_cds.bed -g $OUTDIR/ecoli_MG1655.genome.txt > $OUTDIR/ecoli_MG1655_intergenic.bed
