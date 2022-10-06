@@ -38,6 +38,5 @@ bedtools complement -i $OUTDIR/ecoli_MG1655_cds.bed -g $OUTDIR/ecoli_MG1655.geno
 bedtools getfasta -fi $OUTDIR/ecoli_MG1655.fna -bed $OUTDIR/ecoli_MG1655_cds.bed -fo $OUTDIR/ecoli_MG1655_cds.fna
 bedtools getfasta -fi $OUTDIR/ecoli_MG1655.fna -bed $OUTDIR/ecoli_MG1655_intergenic.bed -fo $OUTDIR/ecoli_MG1655_noncds.fna
 
-#-w ecoli_MG1655.cds.fa -g ecoli_MG1655.fna ecoli_MG1655.gff
-faCount ecoli_MG1655.cds.fna -summary > $OUTDIR/results_cds.txt
-faCount ecoli_MG1655.noncds.fna -summary > $OUTDIR/results_noncds.txt
+faCount $OUTDIR/ecoli_MG1655.cds.fna -summary > $OUTDIR/results_cds.txt
+faCount $OUTDIR/ecoli_MG1655.noncds.fna -summary > $OUTDIR/results_noncds.txt
