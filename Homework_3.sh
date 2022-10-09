@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1			                                # Single task job
 #SBATCH --cpus-per-task=6		                            # Number of cores per task - match this to the num_threads used by BLAST
 #SBATCH --mem=24gb			                                # Total memory for job
-#SBATCH --time=2:00:00  		                            # Time limit hrs:min:sec
+#SBATCH --time=8:00:00  		                            # Time limit hrs:min:sec
 #SBATCH --output=/work/gene8940/tc88074/log.%j			    # Location of standard output and error log files (replace cbergman with your myid)
 #SBATCH --mail-user=tc88074@uga.edu                   # Where to send mail (replace cbergman with your myid)
 #SBATCH --mail-type=END,FAIL                            # Mail events (BEGIN, END, FAIL, ALL)
