@@ -34,19 +34,17 @@ canu -p ecoli -d $OUTDIR/canu genomeSize=4.8m useGrid=false -pacbio-raw /work/ge
 
 spades.py -t 6 -k 21,33,55,77 --isolate --memory 24 --pe1-1 /work/gene8940/instructor_data/s_6_1.fastq.gz --pe1-2 /work/gene8940/instructor_data/s_6_2.fastq.gz -o $OUTDIR/spades
 
-quast.py -o quast -t 6 -r $OUTDIR/ecoli_MG1655.fna \ ecoli.contigs.fasta scaffolds.fasta
+quast.py -o quast -t 6 -r $OUTDIR/ecoli_MG1655.fna $OUTDIR/canu/ecoli.contigs.fasta $OUTDIR/spades/scaffolds.fasta
 
 mkdir mummer
 
-nucmer $OUTDIR/ecoli_MG1655.fna ecoli.contigs.fasta -p mummer/ecoli.canu
+nucmer $OUTDIR/ecoli_MG1655.fna $OUTDIR/canu/ecoli.contigs.fasta -p mummer/ecoli.canu
 delta-filter -1 mummer/ecoli.canu.delta > mummer/ecoli.canu.1delta
 show-coords mummer/ecoli.canu.1delta
 mummerplot --size large -layout --color -f --png mummer/ecoli.canu.1delta -p mummer/ecoli.canu
 
 
-nucmer $OUTDIR/ecoli_MG1655.fna scaffolds.fasta -p mummer/ecoli.spades
+nucmer $OUTDIR/ecoli_MG1655.fna $OUTDIR/spades/scaffolds.fasta -p mummer/ecoli.spades
 delta-filter -1 mummer/ecoli.spades.delta > mummer/ecoli.spades.1delta
 show-coords mummer/ecoli.spades.1delta
 mummerplot --size large -layout --color -f --png mummer/ecoli.spades.1delta -p mummer/ecoli.spades
-
-scp -r txfer:/work/gene8940/cbergman/mummer
