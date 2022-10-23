@@ -42,9 +42,11 @@ samtools index -@ 6 SRR8082143.sorted.bam
 #variant mapping
 module load BCFtools/1.10.2-GCC-8.3.0
 
-bcftools mpileup -Oz --threads 6 --min-MQ 60 -r NC_000913.3:2173000-2174000 -f GCF_000005845.fna SRR8082143.sorted.bam > SRR8082143.sorted.mpileup.vcf.gz
+bcftools mpileup -Oz --threads 6 --min-MQ 60 -f GCF_000005845.fna SRR8082143.sorted.bam > SRR8082143.sorted.mpileup.vcf.gz
 bcftools call -Oz -m -v --threads 6 --ploidy 1 SRR8082143.sorted.mpileup.vcf.gz > SRR8082143.sorted.mpileup.call.vcf.gz
 bcftools filter -Oz -e 'QUAL<40 || DP<10' SRR8082143.sorted.mpileup.call.vcf.gz > SRR8082143.sorted.mpileup.call.filter.vcf.gz
+bcftools view -H -v snps SRR8082143.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
+bcftools view -H -v indels SRR8082143.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
 
 #create IGV readable index file
 bcftools index SRR8082143.sorted.mpileup.call.filter.vcf.gz
