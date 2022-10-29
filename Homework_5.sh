@@ -54,5 +54,6 @@ do
   kallisto quant -t 6 $THREADS -b 100 -i $OUTDIR/ecoli_MG1655_refseq_cds.fa.idx -o $KALLISTODIR/$i /work/gene8940/instructor_data/${i}_2.fastq.gz
 done
 
+
 source activate R
 R --no-save < $HOME/BINF8940/homework5.r
