@@ -30,7 +30,7 @@ fi
 cd $OUTDIR
 
 #download reference genome refseq CDS fasta file
-curl -s ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2 | gunzip -c > $OUTDIR/ecoli_MG1655_refseq_cds.fa
+curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2 | gunzip -c > $OUTDIR/ecoli_MG1655_refseq_cds.fa
 
 #load kallisto module
 module load kallisto/0.46.1-foss-2019b
@@ -44,6 +44,5 @@ do
   kallisto quant -t 6 $THREADS -b 100 -i $OUTDIR/ecoli_MG1655_refseq_cds.fa.idx -o $KALLISTODIR/$i /work/gene8940/instructor_data/${i}_1.fastq.gz /work/gene8940/instructor_data/${i}_2.fastq.gz
 done
 
-
 source activate R
-R --no-save < $HOME/BINF8940/homework5.r
+R --no-save < $HOME/Desktop/GitHub-BINF8940/BINF8940/homework5.r
