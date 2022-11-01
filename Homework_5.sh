@@ -27,8 +27,6 @@ then
   mkdir -p $KALLISTODIR
 fi
 
-cd $OUTDIR
-
 #download reference genome refseq CDS fasta file
 curl ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2 | gunzip -c > $OUTDIR/ecoli_MG1655_refseq_cds.fa
 
