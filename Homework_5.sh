@@ -45,4 +45,4 @@ do
 done
 
 source activate R
-R --no-save < $Tasneem/Desktop/GitHub-BINF8940/BINF8940/homework5.r
+R --no-save < /home/tc88074/BINF8940/homework5.r
