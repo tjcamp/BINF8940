@@ -24,7 +24,6 @@ cd $OUTDIR
 
 #extract paired end illumina reads from 1000 Genomes Project phase 3: 30X coverage whole genome sequencing (Accession: PRJEB31736)
 module load SRA-Toolkit/2.11.1-centos_linux64
-vdb-config --interactive
 prefetch -O $OUTDIR ERR3243163
 fastq-dump --split-files --gzip $OUTDIR/ERR3243163 -O $OUTDIR
 
@@ -47,7 +46,7 @@ samtools index -@ 6 ERR3243163.sorted.bam
 module load BCFtools/1.10.2-GCC-8.3.0
 
 bcftools mpileup -Oz --threads 6 --min-MQ 60 -f GCF_000001405.fna ERR3243163.sorted.bam > ERR3243163.sorted.mpileup.vcf.gz
-bcftools call -Oz -m -v --threads 6 --ploidy 1 ERR3243163.sorted.mpileup.vcf.gz > ERR3243163.sorted.mpileup.call.vcf.gz
+bcftools call -Oz -m -v --threads 6 --ploidy 2 ERR3243163.sorted.mpileup.vcf.gz > ERR3243163.sorted.mpileup.call.vcf.gz
 bcftools filter -Oz -e 'QUAL<40 || DP<10' ERR3243163.sorted.mpileup.call.vcf.gz > ERR3243163.sorted.mpileup.call.filter.vcf.gz
 bcftools view -H -v snps ERR3243163.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
 bcftools view -H -v indels ERR3243163.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
