@@ -24,8 +24,6 @@ cd $OUTDIR
 
 #extract paired end illumina reads from 1000 Genomes Project phase 3: 30X coverage whole genome sequencing (Accession: PRJEB31736)
 module load SRA-Toolkit/2.11.1-centos_linux64
-prefetch -O $OUTDIR ERR4048409
-fastq-dump --split-files --gzip $OUTDIR/ERR4048409 -O $OUTDIR
 
 prefetch -O $OUTDIR ERR4048410
 fastq-dump --split-files --gzip $OUTDIR/ERR4048410 -O $OUTDIR
@@ -45,10 +43,6 @@ module load BWA/0.7.17-GCC-8.3.0
 module load SAMtools/1.10-GCC-8.3.0
 
 bwa index GCF_000001405.fna
-bwa mem -t 6 GCF_000001405.fna ERR4048409_1.fastq.gz ERR4048409_2.fastq.gz | samtools view - -O BAM | samtools sort --threads 6 > ERR4048409.sorted.bam
-samtools index -@ 6 ERR4048409.sorted.bam
-
-bwa index GCF_000001405.fna
 bwa mem -t 6 GCF_000001405.fna ERR4048410_1.fastq.gz ERR4048410_2.fastq.gz | samtools view - -O BAM | samtools sort --threads 6 > ERR4048410.sorted.bam
 samtools index -@ 6 ERR4048410.sorted.bam
 
@@ -58,12 +52,6 @@ samtools index -@ 6 ERR4048411.sorted.bam
 
 #variant mapping with bcftools
 module load BCFtools/1.10.2-GCC-8.3.0
-
-bcftools mpileup -Oz --threads 6 --min-MQ 60 -f GCF_000001405.fna ERR4048409.sorted.bam > ERR4048409.sorted.mpileup.vcf.gz
-bcftools call -Oz -m -v --threads 6 --ploidy 2 ERR4048409.sorted.mpileup.vcf.gz > ERR4048409.sorted.mpileup.call.vcf.gz
-bcftools filter -Oz -e 'QUAL<40 || DP<10' ERR4048409.sorted.mpileup.call.vcf.gz > ERR4048409.sorted.mpileup.call.filter.vcf.gz
-bcftools view -H -v snps ERR4048409.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
-bcftools view -H -v indels ERR4048409.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
 
 bcftools mpileup -Oz --threads 6 --min-MQ 60 -f GCF_000001405.fna ERR4048410.sorted.bam > ERR4048410.sorted.mpileup.vcf.gz
 bcftools call -Oz -m -v --threads 6 --ploidy 2 ERR4048410.sorted.mpileup.vcf.gz > ERR4048410.sorted.mpileup.call.vcf.gz
@@ -78,6 +66,5 @@ bcftools view -H -v snps ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > 
 bcftools view -H -v indels ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
 
 #create IGV readable index file
-bcftools index ERR4048409.sorted.mpileup.call.filter.vcf.gz
 bcftools index ERR4048410.sorted.mpileup.call.filter.vcf.gz
 bcftools index ERR4048411.sorted.mpileup.call.filter.vcf.gz
