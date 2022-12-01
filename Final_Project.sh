@@ -2,7 +2,7 @@
 #SBATCH --job-name=CYP2D6_final_project		                        # Job name
 #SBATCH --partition=batch		                            # Partition (queue) name
 #SBATCH --ntasks=1			                                # Single task job
-#SBATCH --cpus-per-task=20		                            # Number of cores per task - match this to the num_threads used by BLAST
+#SBATCH --cpus-per-task=12		                            # Number of cores per task - match this to the num_threads used by BLAST
 #SBATCH --mem=24gb			                                # Total memory for job
 #SBATCH --time=100:00:00  		                            # Time limit hrs:min:sec
 #SBATCH --output=/work/gene8940/tc88074/log.%j			    # Location of standard output and error log files (replace cbergman with your myid)
@@ -44,23 +44,23 @@ module load SAMtools/1.10-GCC-8.3.0
 
 bwa index GCF_000001405.fna
 
-bwa mem -t 20 GCF_000001405.fna ERR4048410_1.fastq.gz ERR4048410_2.fastq.gz | samtools view - -O BAM | samtools sort --threads 20 > ERR4048410.sorted.bam
-samtools index -@ 20 ERR4048410.sorted.bam
+bwa mem -t 12 GCF_000001405.fna ERR4048410_1.fastq.gz ERR4048410_2.fastq.gz | samtools view - -O BAM | samtools sort --threads 12 > ERR4048410.sorted.bam
+samtools index -@ 12 ERR4048410.sorted.bam
 
-bwa mem -t 20 GCF_000001405.fna ERR4048411_1.fastq.gz ERR4048411_2.fastq.gz | samtools view - -O BAM | samtools sort --threads 20 > ERR4048411.sorted.bam
-samtools index -@ 20 ERR4048411.sorted.bam
+bwa mem -t 12 GCF_000001405.fna ERR4048411_1.fastq.gz ERR4048411_2.fastq.gz | samtools view - -O BAM | samtools sort --threads 12 > ERR4048411.sorted.bam
+samtools index -@ 12 ERR4048411.sorted.bam
 
 #variant mapping with bcftools
 module load BCFtools/1.10.2-GCC-8.3.0
 
-bcftools mpileup -Oz --threads 20 --min-MQ 60 -f GCF_000001405.fna ERR4048410.sorted.bam > ERR4048410.sorted.mpileup.vcf.gz
-bcftools call -Oz -m -v --threads 20 --ploidy GRCh38 ERR4048410.sorted.mpileup.vcf.gz > ERR4048410.sorted.mpileup.call.vcf.gz
+bcftools mpileup -Oz --threads 12 --min-MQ 60 -f GCF_000001405.fna ERR4048410.sorted.bam > ERR4048410.sorted.mpileup.vcf.gz
+bcftools call -Oz -m -v --threads 12 --ploidy GRCh38 ERR4048410.sorted.mpileup.vcf.gz > ERR4048410.sorted.mpileup.call.vcf.gz
 bcftools filter -Oz -e 'QUAL<40 || DP<10' ERR4048410.sorted.mpileup.call.vcf.gz > ERR4048410.sorted.mpileup.call.filter.vcf.gz
 bcftools view -H -v snps ERR4048410.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
 bcftools view -H -v indels ERR4048410.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
 
-bcftools mpileup -Oz --threads 20 --min-MQ 60 -f GCF_000001405.fna ERR4048411.sorted.bam > ERR4048411.sorted.mpileup.vcf.gz
-bcftools call -Oz -m -v --threads 20 --ploidy GRCh38 ERR4048411.sorted.mpileup.vcf.gz > ERR4048411.sorted.mpileup.call.vcf.gz
+bcftools mpileup -Oz --threads 12 --min-MQ 60 -f GCF_000001405.fna ERR4048411.sorted.bam > ERR4048411.sorted.mpileup.vcf.gz
+bcftools call -Oz -m -v --threads 12 --ploidy GRCh38 ERR4048411.sorted.mpileup.vcf.gz > ERR4048411.sorted.mpileup.call.vcf.gz
 bcftools filter -Oz -e 'QUAL<40 || DP<10' ERR4048411.sorted.mpileup.call.vcf.gz > ERR4048411.sorted.mpileup.call.filter.vcf.gz
 bcftools view -H -v snps ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
 bcftools view -H -v indels ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
