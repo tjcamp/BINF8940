@@ -56,14 +56,14 @@ module load BCFtools/1.10.2-GCC-8.3.0
 bcftools mpileup -Oz --threads 12 --min-MQ 60 -f GCF_000001405.fna ERR4048410.sorted.bam > ERR4048410.sorted.mpileup.vcf.gz
 bcftools call -Oz -m -v --threads 12 --ploidy GRCh38 ERR4048410.sorted.mpileup.vcf.gz > ERR4048410.sorted.mpileup.call.vcf.gz
 bcftools filter -Oz -e 'QUAL<40 || DP<10' ERR4048410.sorted.mpileup.call.vcf.gz > ERR4048410.sorted.mpileup.call.filter.vcf.gz
-bcftools view -H -v snps ERR4048410.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
-bcftools view -H -v indels ERR4048410.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
+bcftools view -H -v snps ERR4048410.sorted.mpileup.call.filter.vcf.gz | wc -l > results1.snps.txt
+bcftools view -H -v indels ERR4048410.sorted.mpileup.call.filter.vcf.gz | wc -l > results1.indels.txt
 
 bcftools mpileup -Oz --threads 12 --min-MQ 60 -f GCF_000001405.fna ERR4048411.sorted.bam > ERR4048411.sorted.mpileup.vcf.gz
 bcftools call -Oz -m -v --threads 12 --ploidy GRCh38 ERR4048411.sorted.mpileup.vcf.gz > ERR4048411.sorted.mpileup.call.vcf.gz
 bcftools filter -Oz -e 'QUAL<40 || DP<10' ERR4048411.sorted.mpileup.call.vcf.gz > ERR4048411.sorted.mpileup.call.filter.vcf.gz
-bcftools view -H -v snps ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results.snps.txt
-bcftools view -H -v indels ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results.indels.txt
+bcftools view -H -v snps ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results2.snps.txt
+bcftools view -H -v indels ERR4048411.sorted.mpileup.call.filter.vcf.gz | wc -l > results2.indels.txt
 
 #create IGV readable index file
 bcftools index ERR4048410.sorted.mpileup.call.filter.vcf.gz
